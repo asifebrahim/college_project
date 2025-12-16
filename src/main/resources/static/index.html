@@ -1,39 +1,182 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gemini Test</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; }
-    textarea { width: 100%; height: 120px; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Medical Insurance Cost Estimator</title>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 18px;              /* +2 font size */
+    font-weight: 600;             /* semi-bold */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eaeaea;
+  }
+
+  .card {
+    width: 720px;
+    background: #0b1f2a;
+    border-radius: 14px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  }
+
+  .card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #4fa3ff;
+    letter-spacing: 0.6px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .field label {
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+    color: #b8d8ff;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    background: #122b3a;
+    border: 1px solid #264e6d;
+    border-radius: 8px;
+    padding: 0.7rem 0.8rem;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    outline: none;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: #4fa3ff;
+    box-shadow: 0 0 0 2px rgba(79,163,255,0.25);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 95px;
+  }
+
+  .radio-row {
+    display: flex;
+    gap: 1.8rem;
+    margin-top: 0.4rem;
+  }
+
+  .radio-row label {
+    font-size: 1rem;
+    color: #eaeaea;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    cursor: pointer;
+  }
+
+  /* Center aligned button */
+  .action-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.6rem;
+  }
+
+  .action-row button {
+    width: 40%;
+    background: linear-gradient(135deg, #4fa3ff, #1c6ed5);
+    border: none;
+    border-radius: 12px;
+    padding: 0.9rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .action-row button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(79,163,255,0.45);
+  }
+
+  .result-box {
+    margin-top: 1.7rem;
+    background: #081821;
+    border: 1px solid #1f3f57;
+    border-radius: 10px;
+    padding: 1.1rem;
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+    color: #d6eaff;
+  }
+
+  .result-title {
+    color: #4fa3ff;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+</style>
 </head>
+
 <body>
-  <h2>Estimate Medical Insurance Cost</h2>
-  <form id="insuranceForm">
-    <div>
-      <label>Name</label><br>
-      <input type="text" id="name" />
+
+<div class="card">
+  <h2>Medical Insurance Cost Estimator</h2>
+
+  <form id="insuranceForm" class="form-grid">
+
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="name">
     </div>
-    <div>
-      <label>Age</label><br>
-      <input type="number" id="age" />
+
+    <div class="field">
+      <label>Age</label>
+      <input type="number" id="age">
     </div>
-    <div>
-      <label>Gender</label><br>
+
+    <div class="field">
+      <label>Gender</label>
       <select id="gender">
         <option value="male">Male</option>
         <option value="female">Female</option>
         <option value="other">Other</option>
       </select>
     </div>
-    <div>
+
+    <div class="field">
       <label>Smoker</label>
-      <input type="checkbox" id="smoker" />
+      <div class="radio-row">
+        <label>
+          <input type="radio" name="smoker" value="yes">
+          Yes
+        </label>
+        <label>
+          <input type="radio" name="smoker" value="no" checked>
+          No
+        </label>
+      </div>
     </div>
-    <div>
-      <label>Location/Region</label><br>
+
+    <div class="field">
+      <label>Region</label>
       <select id="location">
         <option value="northeast">Northeast</option>
         <option value="southeast">Southeast</option>
@@ -41,67 +184,72 @@
         <option value="northwest">Northwest</option>
       </select>
     </div>
-    <div>
-      <label>Number of kids</label><br>
-      <input type="number" id="kids" />
+
+    <div class="field">
+      <label>Number of Kids</label>
+      <input type="number" id="kids">
     </div>
-    <div>
-      <label>BMI</label><br>
-      <input type="number" step="0.1" id="bmi" />
+
+    <div class="field">
+      <label>BMI</label>
+      <input type="number" step="0.1" id="bmi">
     </div>
-    <div>
-      <label>Existing conditions (comma separated)</label><br>
-      <textarea id="existingCondition"></textarea>
+
+    <div class="field">
+      <label>Existing Conditions</label>
+      <textarea id="existingCondition" placeholder="Diabetes, BP, Asthma..."></textarea>
     </div>
-    <div style="margin-top:1rem;">
+
+    <div class="action-row">
       <button type="button" id="send">Get Estimate</button>
     </div>
+
   </form>
 
-  <h3>Result</h3>
-  <pre id="result">(no result yet)</pre>
+  <div class="result-box">
+    <div class="result-title">Result</div>
+    <div id="result">(no result yet)</div>
+  </div>
+</div>
 
-  <script>
-    document.getElementById('send').addEventListener('click', async () => {
-      const payload = {
-        name: document.getElementById('name').value,
-        age: parseInt(document.getElementById('age').value || '0'),
-        gender: document.getElementById('gender').value,
-        smoker: document.getElementById('smoker').checked,
-        location: document.getElementById('location').value,
-        kids: parseInt(document.getElementById('kids').value || '0'),
-        bmi: parseFloat(document.getElementById('bmi').value || '0'),
-        existingCondition: document.getElementById('existingCondition').value
-      };
+<script>
+  document.getElementById('send').addEventListener('click', async () => {
+    const payload = {
+      name: document.getElementById('name').value,
+      age: parseInt(document.getElementById('age').value || '0'),
+      gender: document.getElementById('gender').value,
+      smoker: document.querySelector('input[name="smoker"]:checked').value === 'yes',
+      location: document.getElementById('location').value,
+      kids: parseInt(document.getElementById('kids').value || '0'),
+      bmi: parseFloat(document.getElementById('bmi').value || '0'),
+      existingCondition: document.getElementById('existingCondition').value
+    };
 
-      // Validate required fields
-      if (!payload.name || payload.age <= 0 || payload.bmi <= 0) {
-        document.getElementById('result').textContent = 'Error: Please fill in all required fields (name, age > 0, BMI > 0)';
-        return;
-      }
+    if (!payload.name || payload.age <= 0 || payload.bmi <= 0) {
+      document.getElementById('result').textContent =
+        'Error: Please provide Name, valid Age, and BMI.';
+      return;
+    }
 
-      document.getElementById('result').textContent = 'Calculating...';
+    document.getElementById('result').textContent = 'Calculating...';
 
-      try {
-        const resp = await fetch('/api/predict', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+    try {
+      const resp = await fetch('/api/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-        if (!resp.ok) {
-          const text = await resp.text();
-          document.getElementById('result').textContent = 'Error: ' + text;
-          return;
-        }
+      const data = await resp.json();
+      document.getElementById('result').textContent =
+        data.result || JSON.stringify(data, null, 2);
 
-        const json = await resp.json();
-        // Expecting { result: "..." }
-        document.getElementById('result').textContent = json.result || JSON.stringify(json, null, 2);
-      } catch (err) {
-        document.getElementById('result').textContent = 'Error: ' + err.message;
-      }
-    });
-  </script>
+    } catch (err) {
+      document.getElementById('result').textContent =
+        'Error: ' + err.message;
+    }
+  });
+</script>
+
 </body>
 </html>
